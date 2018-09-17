@@ -1,0 +1,28 @@
+{
+  "databases": [
+    {
+      "id": 1,
+      "dbname": "mydb1",
+      "host": "leader",
+      "user": "postgres",
+      "pass": "postgres"
+    },
+    {
+      "id": 2,
+      "dbname": "mydb1",
+      "host": "follower1",
+      "user": "postgres",
+      "pass": "postgres"
+    },
+    {
+      "id": 3,
+      "dbname": "mydb1",
+      "host": "follower2",
+      "user": "postgres",
+      "pass": "postgres"
+    }
+  ],
+  "syncs": [
+  ]
+}
+
