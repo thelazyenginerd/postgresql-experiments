@@ -61,3 +61,22 @@ services:
     - "leader"
     - "follower1"
     - "follower2"
+
+  pgbench:
+    image: "postgres:9.4"
+    environment:
+      PGDATABASE: "mydb1"
+      PGUSER: "postgres"
+      PGPASSWORD: "postgres"
+    depends_on:
+    - "leader"
+    - "follower1"
+    - "follower2"
+    command: |
+      /bin/bash -c "
+        set -euxo pipefail
+        pgbench --initialize --host=leader
+        pgbench --initialize --host=follower1
+        pgbench --initialize --host=follower2
+        pgbench -c 4 -t 10000 --host=leader
+      "

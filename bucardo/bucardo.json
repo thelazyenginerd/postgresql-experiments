@@ -23,6 +23,12 @@
     }
   ],
   "syncs": [
+    {
+      "sources": [1],
+      "targets": [2,3],
+      "tables": "pgbench_branches,pgbench_tellers,pgbench_accounts",
+      "onetimecopy": 2
+    }
   ]
 }
 
