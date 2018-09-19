@@ -59,7 +59,7 @@ services:
       PGUSER: "postgres"
       PGPASSWORD: "postgres"
     volumes:
-    - "./scripts:/opt:ro"
+    - "./scripts:/scripts:ro"
     depends_on:
     - "leader"
     - "follower1"
@@ -71,20 +71,16 @@ services:
       PGDATABASE: "mydb1"
       PGUSER: "postgres"
       PGPASSWORD: "postgres"
+    volumes:
+    - "./scripts:/scripts:ro"
     depends_on:
     - "leader"
     - "follower1"
     - "follower2"
-    # https://www.endpoint.com/blog/2016/05/31/bucardo-replication-workarounds-for
     command: |
-      /bin/bash -c "
-        set -euxo pipefail
-        pgbench --initialize --foreign-keys --host=leader
-        psql --host=leader --command='alter table pgbench_history add column hid serial primary key;'
-        pgbench --initialize --foreign-keys --host=follower1
-        psql --host=follower1 --command='alter table pgbench_history add column hid serial primary key;'
-        pgbench --initialize --foreign-keys --host=follower2
-        psql --host=follower2 --command='alter table pgbench_history add column hid serial primary key;'
+      /bin/bash -eux -c "
+        /scripts/init-data-set.sh
+        /scripts/select-count-all-tables.sh
       "
 
   pgbench:
@@ -93,6 +89,8 @@ services:
       PGDATABASE: "mydb1"
       PGUSER: "postgres"
       PGPASSWORD: "postgres"
+    volumes:
+    - "./scripts:/scripts:ro"
     depends_on:
     - "leader"
     - "follower1"
@@ -101,4 +99,5 @@ services:
     command: |
       /bin/bash -c "
         pgbench -c 4 -t 10000 --host=leader
+        /scripts/select-count-all-tables.sh
       "
