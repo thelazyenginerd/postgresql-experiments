@@ -4,7 +4,7 @@ Postgresql replication with [Bucardo](https://bucardo.org/Bucardo/).
 
 ## Instructions
 
-THe following should be run in 3 separate terminals so that you can see progress of each one.
+THe following should be run in 3 separate terminals so that you can see progress of each one.  There is one "leader" database that `pgbench` will write to, and 2 "follower" databases that are replicated to by Bucardo.
 
 **First Terminal**
 In the first terminal, Kick off the Postgresql containers, load data to them with pgbench, and kick off Bucardo to start the replication.
